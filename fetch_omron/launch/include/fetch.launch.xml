@@ -1,0 +1,47 @@
+<launch>
+
+  <arg name="init_pose"/>
+  <arg name="robot_name"/>
+
+  <!-- Setup controllers -->
+  <rosparam file="$(find fetch_omron)/config/$(arg robot_name)_default_controllers.yaml" command="load" />
+
+  <!-- <param name="robot_description" command="$(find xacro)/xacro $(find fetch_omron)/robots/fetch.gazebo.xacro"/> -->
+  <!-- <rosparam file="$(find fetch_omron)/config/default_controllers.yaml" command="load" /> -->
+  <!-- <node name="fetch_controller_spawner" pkg="controller_manager" type="spawner"
+      args="arm_controller arm_with_torso_controller torso_controller head_controller base_controller gripper_controller bellows_controller"/>
+  -->
+  <!-- URDF and TF support -->
+  
+
+  <!-- Put a robot in gazebo, make it look pretty -->
+     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+      args="$(arg init_pose) -urdf -param /robot_description -model $(arg robot_name)">
+    
+      </node>
+
+  <node name="prepare_robot" pkg="fetch_omron" type="prepare_simulated_robot.py" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+    <param name="publish_frequency" value="100.0"/>
+  </node>
+
+  <!-- Give this robot a serial number and version -->
+  <param name="robot/serial" value="ABCDEFGHIJKLMNOPQRSTUVWX" />
+  <param name="robot/version" value="0.0.1" />
+
+  <!-- Head Camera Pipeline -->
+  <include file="$(find fetch_omron)/launch/include/head_camera.launch.xml" />
+
+
+  <!-- Publish base_scan_raw if anything subscribes to it -->
+   <node name="publish_base_scan_raw" pkg="topic_tools" type="relay" args="base_scan base_scan_raw" >
+    <param name="lazy" type="bool" value="True"/>
+  </node>
+
+  <!-- Start a mux between application and teleop -->
+  <node pkg="topic_tools" type="mux" name="cmd_vel_mux" respawn="true" args="base_controller/command cmd_vel teleop/cmd_vel">
+    <remap from="mux" to="cmd_vel_mux" />
+  </node>
+
+</launch>

@@ -1,0 +1,132 @@
+<launch>
+
+  <env name="GAZEBO_MODEL_PATH" value="$(find fetch_omron)/models:$(optenv GAZEBO_MODEL_PATH)" />
+
+  <arg name="robot_name"/>
+  <arg name="init_pose"/>
+  <arg name="debug" default="false"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+
+
+
+  <param name="robot_description" command="$(find xacro)/xacro $(find fetch_omron)/robots/fetch.gazebo.xacro"/>
+
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="world_name" value="$(find fetch_omron)/worlds/test_zone.sdf"/>
+  </include>
+
+  <!-- <param name="/fetch1/robot_description" command="$(find xacro)/xacro.py $(find fetch_namespace)/robots/fetch1.gazebo.xacro" /> -->
+  <!-- <param name="fetch2/robot_description" command="$(find xacro)/xacro.py $(find fetch_namespace)/robots/fetch2.gazebo.xacro" /> -->
+
+  <!-- <param name="robot_description" command="$(find xacro)/xacro.py $(find fetch_namespace)/robots/fetch1.gazebo.xacro" />
+  <param name="robot_description" command="$(find xacro)/xacro.py $(find fetch_namespace)/robots/fetch2.gazebo.xacro" /> -->
+
+
+  <!-- <rosparam file="$(find fetch_namespace)/config/default_controllers.yaml" command="load" /> -->
+  <!-- <rosparam file="$(find fetch_namespace)/config/fetch2_default_controllers.yaml" command="load" /> -->
+
+
+<!--   <group ns="fetch1">
+
+    <param name="tf_prefix" value="fetch1_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 0 -y 0 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch1"/>
+ 
+
+    </include>
+  </group> -->
+
+  <group ns="fetch2">
+
+    <param name="tf_prefix" value="fetch2_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 2 -y 1 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch2"/>
+
+
+    </include>
+  </group>
+
+    <group ns="fetch3">
+
+    <param name="tf_prefix" value="fetch3_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 2 -y -4 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch3"/>
+
+
+    </include>
+  </group>
+
+
+    <group ns="fetch4">
+
+    <param name="tf_prefix" value="fetch4_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 2 -y -2 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch4"/>
+
+
+    </include>
+  </group>
+
+
+
+    <group ns="fetch5">
+
+    <param name="tf_prefix" value="fetch5_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 2 -y -0 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch5"/>
+
+
+    </include>
+  </group>
+
+
+
+    <group ns="fetch6">
+
+    <param name="tf_prefix" value="fetch6_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 2 -y 2 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch6"/>
+
+
+    </include>
+  </group>
+
+ <group ns="fetch7">
+
+    <param name="tf_prefix" value="fetch7_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 2 -y -1 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch7"/>
+
+
+    </include>
+  </group>
+
+<group ns="fetch8">
+
+    <param name="tf_prefix" value="fetch8_tf"/>
+    <include file="$(find fetch_omron)/launch/include/fetch.launch.xml">
+      <arg name="init_pose" value="-x 2 -y -3 -z 0 -Y 0"/>
+      <arg name="robot_name" value="fetch8"/>
+
+
+    </include>
+  </group>
+
+
+
+
+</launch>
